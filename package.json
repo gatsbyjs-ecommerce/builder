@@ -4,16 +4,8 @@
   "description": "",
   "main": "index.js",
   "private": true,
-  "workspaces": [
-    "admin",
-    "web",
-    "api"
-  ],
   "scripts": {
     "start": "concurrently \"now dev\"",
-    "admin": "yarn workspace admin",
-    "web": "yarn workspace web",
-    "api": "yarn workspace api",
     "setup": "node scripts/index.js",
     "deploy": "now --prod"
   },
