@@ -1,11 +1,11 @@
 {
-  "name": "builder",
+  "name": "gatsbyjs-ecommerce",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "private": true,
   "scripts": {
-    "start": "concurrently \"now dev\"",
+    "start": "now dev",
     "setup": "node scripts/index.js",
     "deploy": "now --prod"
   },
@@ -17,9 +17,9 @@
     "change-case": "^4.1.1",
     "concurrently": "^5.1.0",
     "configstore": "^5.0.0",
+    "prettier": "^1.19.1",
     "prompts": "^2.3.0",
     "replace-in-file": "^5.0.2",
-    "rimraf": "^3.0.1",
     "shelljs": "^0.8.3"
   }
 }

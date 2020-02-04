@@ -1,12 +1,11 @@
+const path = require('path');
+const fs = require('fs');
+const { execFileSync } = require('child_process');
 const shell = require('shelljs');
 const chalk = require('chalk');
 const prompts = require('prompts');
 const replace = require('replace-in-file');
-const { camelCase, capitalCase, paramCase } = require('change-case');
-const path = require('path');
-const { execFileSync } = require('child_process');
-const rimraf = require('rimraf');
-const fs = require('fs');
+const { capitalCase, paramCase } = require('change-case');
 
 const createToken = require('./create-token');
 const packageJson = require('../package.json');
@@ -37,8 +36,8 @@ const run = async () => {
   `);
 
   // console.log(chalk.magenta('Login to Sanity and Now.'));
-  // shell.exec(`sanity login`);
-  // shell.exec(`now login`);
+  // execFileSync('sanity', ['login'], { stdio: 'inherit' });
+  // execFileSync('now', ['login'], { stdio: 'inherit' });
 
   const response = await prompts([
     {
@@ -207,6 +206,19 @@ const run = async () => {
 
   // Other updates //
 
+  // install all dependencies //
+  shell.cd('..');
+  shell.cd(`admin`);
+  shell.exec(`yarn install`);
+  shell.cd(`..`);
+  shell.cd(`api`);
+  shell.exec(`yarn install`);
+  shell.cd(`..`);
+  shell.cd(`web`);
+  shell.exec(`yarn install`);
+  shell.cd(`..`);
+  // install all dependencies //
+
   // finish //
 
   // console.clear();
@@ -219,7 +231,7 @@ Run ${chalk.yellow(
   )} to re-deploy your Sanity GraphQL endpoint AFTER changing your schema.
   (Remember to restart the web server in order to apply schema changes on Gatsby).
 Run ${chalk.yellow('yarn deploy')} to deploy to now.sh.
-Thank you for using this Gatsby starter!  ♥️`);
+Thank you for using this Gatsby E-commerce!  ♥️`);
 
   process.exit(0);
   // finish //
