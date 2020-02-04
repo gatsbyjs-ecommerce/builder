@@ -12,9 +12,6 @@ const packageJson = require('../package.json');
 
 const run = async () => {
   const { version } = packageJson;
-  // console.log('test', path.join(__dirname, '..', 'now.json'));
-
-  // shell.exec('yarn config set workspaces-experimental true');
 
   console.clear();
   console.log(chalk.magenta.bold('Lets build a e-commerce site.', version));
@@ -57,12 +54,6 @@ const run = async () => {
     },
   ]);
   const { siteName, siteUrl, adminEmail } = response;
-  // console.log(
-  //   'siteName',
-  //   paramCase(siteName),
-  //   camelCase(siteName),
-  //   capitalCase(siteName),
-  // );
 
   // Install Admin //
   console.log(chalk.magenta('Setting up Sanity Studio. \n'));
@@ -134,13 +125,12 @@ const run = async () => {
     to: capitalCase(siteName),
   });
 
-  // execFileSync('yarn', ['deploy'], { stdio: 'inherit' }); // no need
   execFileSync('yarn', ['deploy-graphql'], { stdio: 'inherit' });
 
   const sanityToken = await createToken();
 
   const response2 = await prompts({
-    type: 'text',
+    type: 'select',
     name: 'confirm',
     message: () => `Do you want to import some dummy data into sanity?`,
     choices: [

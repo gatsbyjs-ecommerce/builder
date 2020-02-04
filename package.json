@@ -15,7 +15,6 @@
   "dependencies": {
     "chalk": "^3.0.0",
     "change-case": "^4.1.1",
-    "concurrently": "^5.1.0",
     "configstore": "^5.0.0",
     "prettier": "^1.19.1",
     "prompts": "^2.3.0",
