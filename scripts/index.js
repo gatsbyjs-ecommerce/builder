@@ -40,12 +40,24 @@ const run = async () => {
   // shell.exec(`sanity login`);
   // shell.exec(`now login`);
 
-  const response = await prompts({
-    type: 'text',
-    name: 'siteName',
-    message: 'What is your site Name?',
-  });
-  const { siteName } = response;
+  const response = await prompts([
+    {
+      type: 'text',
+      name: 'siteName',
+      message: 'What is your site Name?',
+    },
+    {
+      type: 'text',
+      name: 'siteUrl',
+      message: 'What is your site URL?',
+    },
+    {
+      type: 'text',
+      name: 'adminEmail',
+      message: 'What is site admin email?',
+    },
+  ]);
+  const { siteName, siteUrl, adminEmail } = response;
   // console.log(
   //   'siteName',
   //   paramCase(siteName),
@@ -109,17 +121,19 @@ const run = async () => {
     to: capitalCase(siteName),
   });
 
-  // execFileSync('yarn', ['deploy'], { stdio: 'inherit' });
-  // execFileSync('yarn', ['deploy-graphql'], { stdio: 'inherit' });
+  // execFileSync('yarn', ['deploy'], { stdio: 'inherit' }); // no need
+  execFileSync('yarn', ['deploy-graphql'], { stdio: 'inherit' });
 
   const sanityToken = await createToken();
-  console.log('sanityToken', sanityToken);
 
   const response2 = await prompts({
     type: 'text',
     name: 'confirm',
-    message: () =>
-      `Do you want to import some dummy data into sanity? (yes/no)`,
+    message: () => `Do you want to import some dummy data into sanity?`,
+    choices: [
+      { title: 'Yes', value: 'yes' },
+      { title: 'No', value: 'no' },
+    ],
   });
   if (response2.confirm === 'yes') {
     shell.exec(`yarn import`);
@@ -128,7 +142,6 @@ const run = async () => {
   const sanityFile = path.join(__dirname, '..', 'admin', 'sanity.json');
   const sanityJSON = require(sanityFile);
   const { projectId, dataset } = sanityJSON.api;
-  console.log('sanity', projectId, dataset, __dirname);
   // Setup Admin //
 
   // Other updates //
@@ -139,6 +152,18 @@ const run = async () => {
     {
       name: 'SITE_NAME',
       value: capitalCase(siteName),
+    },
+    {
+      name: 'WEB_APP_URL',
+      value: siteUrl,
+    },
+    {
+      name: 'ADMIN_EMAIL',
+      value: adminEmail,
+    },
+    {
+      name: 'JWTSECRET',
+      value: 'random', // TODO:
     },
     {
       name: 'SANITY_PROJECT_ID',
@@ -162,21 +187,35 @@ const run = async () => {
   }
   fs.writeFileSync(nowFile, JSON.stringify(nowJson));
   shell.exec(`prettier --write ${path.join(__dirname, '..', 'now.json')}`);
+
+  // web fixes
+  await replace({
+    files: path.join(__dirname, '..', 'web/src/utils/config.js'),
+    from: '--siteName--',
+    to: capitalCase(siteName),
+  });
+  await replace({
+    files: path.join(__dirname, '..', 'web/src/utils/config.js'),
+    from: '--siteUrl--',
+    to: siteUrl,
+  });
+  await replace({
+    files: path.join(__dirname, '..', 'web/src/utils/config.js'),
+    from: '--sanityId--',
+    to: projectId,
+  });
+
   // Other updates //
 
   // finish //
 
   // console.clear();
   console.log(`${chalk.green.bold('Done!')}
-Run ${chalk.yellow(
-    `cd ${paramCase(siteName)}`,
-  )} to change to the project directory
-
 Run ${chalk.yellow('yarn start')} to start a web server.
   - Navigate to http://localhost:3000 to preview your Gatsby application.
   - Navigate to http://localhost:3333 to open Sanity Studio.
 Run ${chalk.yellow(
-    'yarn studio deploy:graphql',
+    'cd admin && yarn deploy-graphql',
   )} to re-deploy your Sanity GraphQL endpoint AFTER changing your schema.
   (Remember to restart the web server in order to apply schema changes on Gatsby).
 Run ${chalk.yellow('yarn deploy')} to deploy to now.sh.

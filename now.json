@@ -3,9 +3,13 @@
   "name": "my-project",
   "build": {
     "env": {
-      "SANITY_PROJECT_ID": "a6glldpu",
+      "SANITY_PROJECT_ID": "ej18bv85",
       "SANITY_DATASET": "production",
-      "SANITY_TOKEN": "skCbBtgtLiu4MdhrD7W8rSZ93ZqBOGCarWTKlikTkBpBmw8R5oAU5GNwNAaJsmTAV3xcblbiBWLmPOhJn"
+      "SANITY_TOKEN": "skCbBtgtLiu4MdhrD7W8rSZ93ZqBOGCarWTKlikTkBpBmw8R5oAU5GNwNAaJsmTAV3xcblbiBWLmPOhJn",
+      "SITE_NAME": "My Project",
+      "WEB_APP_URL": "https://ww.coms.com",
+      "ADMIN_EMAIL": "as@admc.co",
+      "JWTSECRET": "random"
     }
   },
   "builds": [

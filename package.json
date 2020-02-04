@@ -10,7 +10,12 @@
     "api"
   ],
   "scripts": {
-    "start": "node scripts/index.js"
+    "start": "concurrently \"now dev\"",
+    "admin": "yarn workspace admin",
+    "web": "yarn workspace web",
+    "api": "yarn workspace api",
+    "setup": "node scripts/index.js",
+    "deploy": "now --prod"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +23,7 @@
   "dependencies": {
     "chalk": "^3.0.0",
     "change-case": "^4.1.1",
+    "concurrently": "^5.1.0",
     "configstore": "^5.0.0",
     "prompts": "^2.3.0",
     "replace-in-file": "^5.0.2",
