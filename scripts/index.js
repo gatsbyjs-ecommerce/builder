@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-const { execFileSync } = require('child_process');
+const { execFileSync, spawn } = require('child_process');
 const shell = require('shelljs');
 const chalk = require('chalk');
 const prompts = require('prompts');
@@ -94,21 +94,25 @@ const run = async () => {
   }
   // Install Api //
 
-  console.log(chalk.blue('Install all required packages. \n'));
+  console.log(chalk.blue('Installing all required packages. \n'));
   // install all dependencies //
   shell.cd('..');
   shell.cd(`admin`);
+  console.log('in dir', shell.pwd().stdout);
   shell.exec(`yarn install`);
-  shell.rm('-rf', '.git');
+  shell.rm('-rf', '/.git');
   shell.cd(`..`);
   shell.cd(`api`);
+  console.log('in dir', shell.pwd().stdout);
   shell.exec(`yarn install`);
   shell.rm('-rf', '.git');
   shell.cd(`..`);
   shell.cd(`web`);
+  console.log('in dir', shell.pwd().stdout);
   shell.exec(`yarn install`);
   shell.rm('-rf', '.git');
   shell.cd(`..`);
+  console.log('in dir', shell.pwd().stdout);
   // install all dependencies //
 
   // Setup Admin //
@@ -145,6 +149,7 @@ const run = async () => {
   const sanityFile = path.join(__dirname, '..', 'admin', 'sanity.json');
   const sanityJSON = require(sanityFile);
   const { projectId, dataset } = sanityJSON.api;
+  shell.cd('..');
   // Setup Admin //
 
   // Other updates //
@@ -211,7 +216,7 @@ const run = async () => {
 
   // finish //
 
-  // console.clear();
+  console.clear();
   console.log(`
     ${chalk.green.bold('Done!')}
     Run ${chalk.yellow('yarn start')} to start a web server.
