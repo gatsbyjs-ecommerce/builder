@@ -1,0 +1,27 @@
+{
+  "name": "builder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "admin",
+    "web",
+    "api"
+  ],
+  "scripts": {
+    "start": "node scripts/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^3.0.0",
+    "change-case": "^4.1.1",
+    "configstore": "^5.0.0",
+    "prompts": "^2.3.0",
+    "replace-in-file": "^5.0.2",
+    "rimraf": "^3.0.1",
+    "shelljs": "^0.8.3"
+  }
+}

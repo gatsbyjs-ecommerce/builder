@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "name": "my-project",
+  "build": {
+    "env": {
+      "SANITY_PROJECT_ID": "a6glldpu",
+      "SANITY_DATASET": "production",
+      "SANITY_TOKEN": "skCbBtgtLiu4MdhrD7W8rSZ93ZqBOGCarWTKlikTkBpBmw8R5oAU5GNwNAaJsmTAV3xcblbiBWLmPOhJn"
+    }
+  },
+  "builds": [
+    { "src": "admin/package.json", "use": "@now/static-build" },
+    { "src": "web/package.json", "use": "@now/static-build" },
+    { "src": "api/**/*.js", "use": "@now/node" }
+  ],
+  "routes": [
+    { "src": "^/studio/static/(.*)", "dest": "/admin/static/$1" },
+    { "src": "^/studio/(.*)", "dest": "/admin/index.html" },
+    { "src": "^/api/(.*)", "dest": "/api/$1" },
+    { "src": "^/(.*)", "dest": "/web/$1" }
+  ],
+  "github": { "autoJobCancelation": true }
+}
