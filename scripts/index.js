@@ -104,7 +104,21 @@ const run = async () => {
   // Install Api //
 
   console.log(chalk.blue('Install all required packages. \n'));
+  // install all dependencies //
+  shell.cd('..');
+  shell.cd(`admin`);
   shell.exec(`yarn install`);
+  shell.rm('-rf', '.git');
+  shell.cd(`..`);
+  shell.cd(`api`);
+  shell.exec(`yarn install`);
+  shell.rm('-rf', '.git');
+  shell.cd(`..`);
+  shell.cd(`web`);
+  shell.exec(`yarn install`);
+  shell.rm('-rf', '.git');
+  shell.cd(`..`);
+  // install all dependencies //
 
   // Setup Admin //
   console.log(chalk.magenta('Lets create a Sanity Project.'));
@@ -135,7 +149,7 @@ const run = async () => {
     ],
   });
   if (response2.confirm === 'yes') {
-    shell.exec(`yarn import`);
+    shell.exec(`yarn run import`);
   }
 
   const sanityFile = path.join(__dirname, '..', 'admin', 'sanity.json');
@@ -145,7 +159,6 @@ const run = async () => {
 
   // Other updates //
   console.log(chalk.blue('Updating now.json for Zeit Now hosting. \n'));
-
   // set environment variables
   const envVars = [
     {
@@ -206,32 +219,21 @@ const run = async () => {
 
   // Other updates //
 
-  // install all dependencies //
-  shell.cd('..');
-  shell.cd(`admin`);
-  shell.exec(`yarn install`);
-  shell.cd(`..`);
-  shell.cd(`api`);
-  shell.exec(`yarn install`);
-  shell.cd(`..`);
-  shell.cd(`web`);
-  shell.exec(`yarn install`);
-  shell.cd(`..`);
-  // install all dependencies //
-
   // finish //
 
   // console.clear();
-  console.log(`${chalk.green.bold('Done!')}
-Run ${chalk.yellow('yarn start')} to start a web server.
-  - Navigate to http://localhost:3000 to preview your Gatsby application.
-  - Navigate to http://localhost:3333 to open Sanity Studio.
-Run ${chalk.yellow(
-    'cd admin && yarn deploy-graphql',
-  )} to re-deploy your Sanity GraphQL endpoint AFTER changing your schema.
-  (Remember to restart the web server in order to apply schema changes on Gatsby).
-Run ${chalk.yellow('yarn deploy')} to deploy to now.sh.
-Thank you for using this Gatsby E-commerce!  ♥️`);
+  console.log(`
+    ${chalk.green.bold('Done!')}
+    Run ${chalk.yellow('yarn start')} to start a web server.
+      - Navigate to http://localhost:3000 to preview your Gatsby application.
+      - Navigate to http://localhost:3333 to open Sanity Studio.
+    Run ${chalk.yellow(
+      'cd admin && yarn deploy-graphql',
+    )} to re-deploy your Sanity GraphQL endpoint AFTER changing your schema.
+      (Remember to restart the web server in order to apply schema changes on Gatsby).
+    Run ${chalk.yellow('yarn deploy')} to deploy to now.sh.
+    Thank you for using this Gatsby E-commerce! ♥️
+  `);
 
   process.exit(0);
   // finish //
