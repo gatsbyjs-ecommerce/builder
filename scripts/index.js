@@ -5,6 +5,7 @@ const shell = require('shelljs');
 const chalk = require('chalk');
 const prompts = require('prompts');
 const replace = require('replace-in-file');
+const rimraf = require('rimraf');
 const { capitalCase, paramCase } = require('change-case');
 
 const createToken = require('./create-token');
@@ -100,26 +101,10 @@ const run = async () => {
   }
   // Install Api //
 
-  // shell.cd('..');
-  // console.log(chalk.blue('Installing all required packages. \n'));
-  // // install all dependencies //
-  // shell.cd(`packages/admin`);
-  // console.log('in dir', shell.pwd().stdout);
-  // shell.exec(`yarn install`);
-  // shell.rm('-rf', '/.git');
-  // shell.cd(`../..`);
-  // shell.cd(`packages/api`);
-  // console.log('in dir', shell.pwd().stdout);
-  // shell.exec(`yarn install`);
-  // shell.rm('-rf', '.git');
-  // shell.cd(`../..`);
-  // shell.cd(`packages/web`);
-  // console.log('in dir', shell.pwd().stdout);
-  // shell.exec(`yarn install`);
-  // shell.rm('-rf', '.git');
-  // shell.cd(`../..`);
-  // console.log('in dir', shell.pwd().stdout);
-  // // install all dependencies //
+  console.log(chalk.blue('Removing .git directories for projects. \n'));
+  rimraf.sync(path.join(__dirname, '..', 'packages/admin/.git'));
+  rimraf.sync(path.join(__dirname, '..', 'packages/api/.git'));
+  rimraf.sync(path.join(__dirname, '..', 'packages/web/.git'));
 
   // Setup Admin //
   console.log(chalk.magenta('Lets create a Sanity Project.'));

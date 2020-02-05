@@ -5,15 +5,15 @@
     "env": {}
   },
   "builds": [
-    { "src": "admin/package.json", "use": "@now/static-build" },
-    { "src": "web/package.json", "use": "@now/static-build" },
-    { "src": "api/**/*.js", "use": "@now/node" }
+    { "src": "packages/admin/package.json", "use": "@now/static-build" },
+    { "src": "packages/web/package.json", "use": "@now/static-build" },
+    { "src": "packages/api/**/*.js", "use": "@now/node" }
   ],
   "routes": [
-    { "src": "^/studio/static/(.*)", "dest": "/admin/static/$1" },
-    { "src": "^/studio/(.*)", "dest": "/admin/index.html" },
-    { "src": "^/api/(.*)", "dest": "/api/$1" },
-    { "src": "^/(.*)", "dest": "/web/$1" }
+    { "src": "^/studio/static/(.*)", "dest": "/packages/admin/static/$1" },
+    { "src": "^/studio/(.*)", "dest": "/packages/admin/index.html" },
+    { "src": "^/api/(.*)", "dest": "/packages/api/$1" },
+    { "src": "^/(.*)", "dest": "/packages/web/$1" }
   ],
   "github": { "autoJobCancelation": true }
 }
