@@ -100,7 +100,7 @@ const run = async () => {
   }
   // Install Api //
 
-  shell.cd('..');
+  // shell.cd('..');
   // console.log(chalk.blue('Installing all required packages. \n'));
   // // install all dependencies //
   // shell.cd(`packages/admin`);
@@ -124,6 +124,7 @@ const run = async () => {
   // Setup Admin //
   console.log(chalk.magenta('Lets create a Sanity Project.'));
   shell.cd(`packages/admin`);
+  console.log('in dir', shell.pwd().stdout);
   execFileSync(
     'sanity',
     ['init', '--reconfigure', paramCase(siteName), '--dataset', 'production'],
