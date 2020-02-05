@@ -57,74 +57,80 @@ const run = async () => {
 
   // Install Admin //
   console.log(chalk.magenta('Setting up Sanity Studio. \n'));
-  if (shell.test('-d', 'admin')) {
+  if (shell.test('-d', 'packages/admin')) {
     console.log(
       chalk.blue('- Sanity Studio already exists, so skipping setup. \n'),
     );
   } else {
     console.log(chalk.blue('- Cloning fresh Sanity Studio. \n'));
 
-    shell.exec(`git clone git@github.com:gatsbyjs-ecommerce/admin.git admin`);
+    shell.exec(
+      `git clone git@github.com:gatsbyjs-ecommerce/admin.git packages/admin`,
+    );
   }
   // Install Admin //
 
   // Install Web //
   console.log(chalk.magenta('Setting up GatsbyJs frontend. \n'));
-  if (shell.test('-d', 'web')) {
+  if (shell.test('-d', 'packages/web')) {
     console.log(
       chalk.blue('- GatsbyJs site already exists, so skipping setup. \n'),
     );
   } else {
     console.log(chalk.blue('- Cloning fresh GatsbyJs site. \n'));
 
-    shell.exec(`git clone git@github.com:gatsbyjs-ecommerce/web.git web`);
+    shell.exec(
+      `git clone git@github.com:gatsbyjs-ecommerce/web.git packages/web`,
+    );
   }
   // Install Web //
 
   // Install Api //
   console.log(chalk.magenta('Setting up Apollo GraphQl API. \n'));
-  if (shell.test('-d', 'api')) {
+  if (shell.test('-d', 'packages/api')) {
     console.log(
       chalk.blue('- Apollo GraphQl API already exists, so skipping setup. \n'),
     );
   } else {
     console.log(chalk.blue('- Cloning fresh Apollo GraphQl API. \n'));
 
-    shell.exec(`git clone git@github.com:gatsbyjs-ecommerce/api.git api`);
+    shell.exec(
+      `git clone git@github.com:gatsbyjs-ecommerce/api.git packages/api`,
+    );
   }
   // Install Api //
 
-  console.log(chalk.blue('Installing all required packages. \n'));
-  // install all dependencies //
   shell.cd('..');
-  shell.cd(`admin`);
-  console.log('in dir', shell.pwd().stdout);
-  shell.exec(`yarn install`);
-  shell.rm('-rf', '/.git');
-  shell.cd(`..`);
-  shell.cd(`api`);
-  console.log('in dir', shell.pwd().stdout);
-  shell.exec(`yarn install`);
-  shell.rm('-rf', '.git');
-  shell.cd(`..`);
-  shell.cd(`web`);
-  console.log('in dir', shell.pwd().stdout);
-  shell.exec(`yarn install`);
-  shell.rm('-rf', '.git');
-  shell.cd(`..`);
-  console.log('in dir', shell.pwd().stdout);
-  // install all dependencies //
+  // console.log(chalk.blue('Installing all required packages. \n'));
+  // // install all dependencies //
+  // shell.cd(`packages/admin`);
+  // console.log('in dir', shell.pwd().stdout);
+  // shell.exec(`yarn install`);
+  // shell.rm('-rf', '/.git');
+  // shell.cd(`../..`);
+  // shell.cd(`packages/api`);
+  // console.log('in dir', shell.pwd().stdout);
+  // shell.exec(`yarn install`);
+  // shell.rm('-rf', '.git');
+  // shell.cd(`../..`);
+  // shell.cd(`packages/web`);
+  // console.log('in dir', shell.pwd().stdout);
+  // shell.exec(`yarn install`);
+  // shell.rm('-rf', '.git');
+  // shell.cd(`../..`);
+  // console.log('in dir', shell.pwd().stdout);
+  // // install all dependencies //
 
   // Setup Admin //
   console.log(chalk.magenta('Lets create a Sanity Project.'));
-  shell.cd(`admin`);
+  shell.cd(`packages/admin`);
   execFileSync(
     'sanity',
     ['init', '--reconfigure', paramCase(siteName), '--dataset', 'production'],
     { stdio: 'inherit' },
   );
   await replace({
-    files: path.join(__dirname, '..', 'admin/sanity.json'),
+    files: path.join(__dirname, '..', 'packages/admin/sanity.json'),
     from: '--siteName--',
     to: capitalCase(siteName),
   });
@@ -146,7 +152,12 @@ const run = async () => {
     shell.exec(`yarn run import`);
   }
 
-  const sanityFile = path.join(__dirname, '..', 'admin', 'sanity.json');
+  const sanityFile = path.join(
+    __dirname,
+    '..',
+    'packages/admin',
+    'sanity.json',
+  );
   const sanityJSON = require(sanityFile);
   const { projectId, dataset } = sanityJSON.api;
   shell.cd('..');
@@ -197,17 +208,17 @@ const run = async () => {
 
   // web fixes
   await replace({
-    files: path.join(__dirname, '..', 'web/src/utils/config.js'),
+    files: path.join(__dirname, '..', 'packages/web/src/utils/config.js'),
     from: '--siteName--',
     to: capitalCase(siteName),
   });
   await replace({
-    files: path.join(__dirname, '..', 'web/src/utils/config.js'),
+    files: path.join(__dirname, '..', 'packages/web/src/utils/config.js'),
     from: '--siteUrl--',
     to: siteUrl,
   });
   await replace({
-    files: path.join(__dirname, '..', 'web/src/utils/config.js'),
+    files: path.join(__dirname, '..', 'packages/web/src/utils/config.js'),
     from: '--sanityId--',
     to: projectId,
   });

@@ -1,5 +1,2 @@
-# /web
-# /api
-# /admin
 node_modules
 yarn-error.log

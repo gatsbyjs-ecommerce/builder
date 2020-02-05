@@ -4,10 +4,19 @@
   "description": "",
   "main": "index.js",
   "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
   "scripts": {
     "start": "now dev",
     "setup": "node scripts/index.js",
-    "deploy": "now --prod"
+    "deploy": "now --prod",
+    "admin": "yarn workspace admin start",
+    "api": "yarn workspace api dev",
+    "web": "yarn workspace web start",
+    "dev": "concurrently --kill-others-on-fail 'yarn admin' 'yarn api' 'yarn web'"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +24,7 @@
   "dependencies": {
     "chalk": "^3.0.0",
     "change-case": "^4.1.1",
+    "concurrently": "^5.1.0",
     "configstore": "^5.0.0",
     "prettier": "^1.19.1",
     "prompts": "^2.3.0",
