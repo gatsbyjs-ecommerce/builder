@@ -29,6 +29,7 @@
     "prettier": "^1.19.1",
     "prompts": "^2.3.0",
     "replace-in-file": "^5.0.2",
+    "rimraf": "^3.0.1",
     "shelljs": "^0.8.3"
   }
 }
